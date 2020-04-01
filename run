@@ -1,0 +1,21 @@
+#!/bin/bash -xe
+
+docker-compose up -d
+sleep 3
+
+pushd PWA/pwa-studio
+
+#export NODE_ENV="production"
+export MAGENTO_BACKEND_URL="https://contribute.localhost.com/"
+export UPWARD_JS_BIND_LOCAL=1
+export CUSTOM_ORIGIN_ENABLED=0
+
+#yarn install
+# cp -f .env-siminia ./packages/siminia/.env
+# yarn buildpack create-custom-origin packages/siminia
+yarn run build
+yarn run watch:siminia
+
+# NODE_ENV=development PORT=8081 yarn run watch:siminia
+
+popd

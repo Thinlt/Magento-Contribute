@@ -1,0 +1,4 @@
+</head>
+{{#urlResolver}}
+<body data-model-type="{{type}}" data-model-id="{{id}}" data-model-relative_url="{{relative_url}}"  data-model-canonical_url="{{canonical_url}}">
+{{/urlResolver}}

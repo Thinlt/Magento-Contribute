@@ -1,0 +1,64 @@
+version: '3'
+networks:
+    hostnet:
+        external: true
+services:
+    magento:
+        # hostname: contribute.localhost.com
+        # environment:
+        #     VIRTUAL_HOST: contribute.localhost.com
+        image: apache2.4-php7.2
+        volumes:
+            - /Users/robert/Simi-Workspace/github/Magento-Contribute/magento2/:/var/www/html/:delegated
+            - Magento-CE-2.4_generated:/var/www/html/generated/:nocopy
+            - Magento-CE-2.4_vendor:/var/www/html/vendor/:nocopy
+            - Magento-CE-2.4_cache:/var/www/html/cache/:nocopy
+            - ./magento.ini:/usr/local/etc/php/conf.d/magento.ini
+            - ./xdebug.ini:/usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
+            - ./www.conf:/etc/apache2/sites-available/000-default.conf
+        ports:
+            - "80:80"
+            - "443:443"
+        networks:
+            - hostnet
+
+    db:
+        image: mysql:5.7.29
+        environment:
+            MYSQL_ROOT_PASSWORD: magento
+            MYSQL_USER: magento
+            MYSQL_PASSWORD: magento
+            MYSQL_DATABASE: magento
+        volumes:
+            - contribute-2.4:/var/lib/mysql:nocopy
+        networks:
+            - hostnet
+        # Restoring data from dump files:
+        # docker exec -i pwa_ramez_db_1 sh -c 'exec mysql -uroot -p"$MYSQL_ROOT_PASSWORD" magento' < /some/path/on/your/host/all-databases.sql
+  
+    phpmyadmin:
+        image: phpmyadmin/phpmyadmin
+        ports:
+            - 81:80
+        expose:
+            - 80
+        environment:
+            PMA_HOST: db
+            PMA_USER: root
+            PMA_PASSWORD: magento
+        networks:
+            - hostnet
+
+    mailhog:
+        image: mailhog/mailhog
+        ports:
+            - 82:8025
+        networks:
+            - hostnet
+    
+volumes:
+    contribute-2.4: { external: true }
+    Magento-CE-2.4_generated: { external: true }
+    Magento-CE-2.4_vendor: { external: true }
+    Magento-CE-2.4_cache: { external: true }
+  

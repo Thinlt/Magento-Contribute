@@ -1,0 +1,18 @@
+#!/bin/bash -xe
+
+pushd /Users/robert/Simi-Workspace/github/Magento-Contribute
+docker-compose up -d
+popd
+
+sleep 3
+
+#export NODE_ENV="production"
+export MAGENTO_BACKEND_URL="http://contribute.localhost.com/"
+export UPWARD_JS_BIND_LOCAL=true
+
+#yarn install
+# cp -f .env-siminia ./packages/siminia/.env
+NODE_ENV=development
+yarn run build
+# NODE_ENV=development PORT=8081 yarn run watch:siminia
+yarn run watch:siminia

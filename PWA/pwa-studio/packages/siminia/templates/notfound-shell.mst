@@ -1,0 +1,21 @@
+{{> templates/open-document}}
+    <title>Siminia -- Not Found</title>
+  {{> templates/open-body }}
+  <style>
+        .i-c-notfound {
+            margin: 1rem 0;
+            gap: 2rem;
+        }
+        .i-c-notfound a {
+            color: currentColor;
+        }
+        .i-c-closed {
+            height: 40vh;
+        }
+    </style>
+    <div class="i-c i-c-notfound">
+        <h1 class="i-c-heading">Sorry! Page not found</h1>
+        <div>We could not find the page you requested.<br>
+        <a href="/">Continue shopping</a></div>
+    </div>
+{{> templates/close-document}}

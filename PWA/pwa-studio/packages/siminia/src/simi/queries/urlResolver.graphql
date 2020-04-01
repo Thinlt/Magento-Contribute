@@ -1,0 +1,8 @@
+query resolveUrl($urlKey: String!) {
+    urlResolver(url: $urlKey) {
+        type
+        id
+        relative_url
+        canonical_url
+    }
+}
